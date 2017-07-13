@@ -1,5 +1,7 @@
-/* eslint-disable react/no-multi-comp, jsx-a11y/no-static-element-interactions, no-console */
+/* eslint-disable react/no-multi-comp, jsx-a11y/no-static-element-interactions, no-console, react/no-unused-prop-types */
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import { isEqual, debounce, uniq } from './helpers'
 
 import {
@@ -59,9 +61,9 @@ Option.defaultProps = {
 }
 
 Option.propTypes = {
-  selected: React.PropTypes.bool.isRequired,
-  children: React.PropTypes.node.isRequired,
-  onClick: React.PropTypes.func,
+  selected: PropTypes.bool.isRequired,
+  children: PropTypes.node.isRequired,
+  onClick: PropTypes.func,
 }
 
 export default class Select extends React.Component {
@@ -377,32 +379,31 @@ export default class Select extends React.Component {
 }
 
 Select.propTypes = {
-  // eslint-disable-next-line react/no-unused-prop-types
-  filter: React.PropTypes.string,
-  onChange: React.PropTypes.func,
-  onTextChange: React.PropTypes.func,
-  CustomOption: React.PropTypes.func,
-  CustomNoResult: React.PropTypes.func,
-  CustomTag: React.PropTypes.func,
-  Header: React.PropTypes.func,
-  Footer: React.PropTypes.func,
-  options: React.PropTypes.arrayOf(React.PropTypes.shape({})),
-  noFilter: React.PropTypes.bool,
-  multi: React.PropTypes.bool,
-  values: React.PropTypes.arrayOf(React.PropTypes.shape({})),
-  label: React.PropTypes.string,
-  placeholder: React.PropTypes.string,
-  required: React.PropTypes.bool,
-  disabled: React.PropTypes.bool,
-  maxHeight: React.PropTypes.number,
-  inputMinWidth: React.PropTypes.number,
-  preventParentScroll: React.PropTypes.bool,
-  reachedTop: React.PropTypes.func,
-  reachedBottom: React.PropTypes.func,
-  forceHeader: React.PropTypes.bool,
-  forceFooter: React.PropTypes.bool,
-  forceCustomNoResult: React.PropTypes.bool,
-  onEnter: React.PropTypes.func,
+  filter: PropTypes.string,
+  onChange: PropTypes.func,
+  onTextChange: PropTypes.func,
+  CustomOption: PropTypes.func,
+  CustomNoResult: PropTypes.func,
+  CustomTag: PropTypes.func,
+  Header: PropTypes.func,
+  Footer: PropTypes.func,
+  options: PropTypes.arrayOf(PropTypes.shape({})),
+  noFilter: PropTypes.bool,
+  multi: PropTypes.bool,
+  values: PropTypes.arrayOf(PropTypes.shape({})),
+  label: PropTypes.string,
+  placeholder: PropTypes.string,
+  required: PropTypes.bool,
+  disabled: PropTypes.bool,
+  maxHeight: PropTypes.number,
+  inputMinWidth: PropTypes.number,
+  preventParentScroll: PropTypes.bool,
+  reachedTop: PropTypes.func,
+  reachedBottom: PropTypes.func,
+  forceHeader: PropTypes.bool,
+  forceFooter: PropTypes.bool,
+  forceCustomNoResult: PropTypes.bool,
+  onEnter: PropTypes.func,
 }
 
 Select.defaultProps = {
