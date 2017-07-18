@@ -6,10 +6,6 @@ module.exports = {
   
   entry: './src/lib/index.js',
 
-  plugins: [
-    new webpack.HotModuleReplacementPlugin()
-  ],
-
   output: {
     filename: 'react-select.min.js',
     path: resolve(__dirname, 'dist'),
