@@ -16,4 +16,13 @@ export const isEqual = (a, b) => {
   }
 }
 
-export const uniq = array => [...new Set(array)]
+// es6
+// export const uniq = array => [...new Set(array)]
+
+// es5
+export const uniq = array => (
+  array.reduce((r, v) => {
+    const exist = r.map(e => e.value).indexOf(v.value) > - 1
+    return exist ? r : [...r, v]
+  }, [])
+)

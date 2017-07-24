@@ -186,7 +186,7 @@ export default class Select extends React.Component {
     }
     
     const cValues = values.map(e => e.value)
-    return filteredOptions.filter(e => !cValues.includes(e.value))
+    return filteredOptions.filter(e => cValues.indexOf(e.value) === -1)
   }
 
   getNextIndex = (index, minus) => {
