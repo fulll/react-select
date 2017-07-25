@@ -80,7 +80,9 @@ export default class Select extends React.Component {
     window.addEventListener('resize', this.debouncedHandleSize)
   }
 
-  componentDidMount = () => { this.handleSize() }
+  componentDidMount = () => {
+    this.handleSize()
+  }
 
   componentWillReceiveProps = (nextProps) => {
     if (!isEqual(nextProps.values, this.state.values)) {
@@ -92,10 +94,18 @@ export default class Select extends React.Component {
   }
 
   componentDidUpdate = () => {
+    const { customValidator } = this.props
+    if (customValidator && this.input) {
+      const value = customValidator()
+      .then(() => { this.input.setCustomValidity('') })
+      .catch(e => { this.input.setCustomValidity(e) })
+    } else this.input.setCustomValidity('')
+
     if (this.options && this.props.reachedTop) {
       if (this.options.scrollTop !== 0) this.reachedTop = false
       else this.reachedTop = true
     }
+
     if (this.options && this.props.reachedBottom) {
       const { scrollTop, scrollHeight, offsetHeight } = this.options
       if (scrollTop !== scrollHeight - offsetHeight) this.reachedBottom = false
@@ -184,7 +194,7 @@ export default class Select extends React.Component {
         return true
       })
     }
-    
+
     const cValues = values.map(e => e.value)
     return filteredOptions.filter(e => cValues.indexOf(e.value) === -1)
   }
@@ -279,7 +289,7 @@ export default class Select extends React.Component {
   }
 
   blur = (e) => {
-    if (!this.body.contains(e.target)) {
+    if (this.body && !this.body.contains(e.target)) {
       this.setState({ displayOptions: false, selected: 0 })
     }
   }
@@ -291,7 +301,7 @@ export default class Select extends React.Component {
       CustomTag,
       CustomNoResult,
       label,
-      required,
+      customValidator,
       placeholder,
       Header,
       Footer,
@@ -314,7 +324,7 @@ export default class Select extends React.Component {
       >
         {label && <Label focus={this.state.displayOptions}>
           {label}
-          {required &&
+          {customValidator &&
             <span
               style={{
                 color: displayOptions
@@ -339,7 +349,6 @@ export default class Select extends React.Component {
               value={this.state.filterText}
               name={`select-search-${randomId}`}
               onFocus={this.focus}
-              required={values[0] ? false : required}
               placeholder={placeholder}
               minWidth={this.props.inputMinWidth}
             />
@@ -393,7 +402,7 @@ Select.propTypes = {
   values: PropTypes.arrayOf(PropTypes.shape({})),
   label: PropTypes.string,
   placeholder: PropTypes.string,
-  required: PropTypes.bool,
+  customValidator: PropTypes.func,
   disabled: PropTypes.bool,
   maxHeight: PropTypes.number,
   inputMinWidth: PropTypes.number,
@@ -420,7 +429,7 @@ Select.defaultProps = {
   multi: false,
   values: [],
   label: null,
-  required: false,
+  customValidator: undefined,
   disabled: false,
   maxHeight: 220,
   inputMinWidth: 10,
