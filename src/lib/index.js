@@ -265,6 +265,7 @@ export default class Select extends React.Component {
   }
 
   focus = () => {
+    if (this.props.onFocus) this.props.onFocus()
     this.input.focus()
     this.setState({ displayOptions: true })
     this.handleSize()
@@ -413,6 +414,7 @@ Select.propTypes = {
   forceFooter: PropTypes.bool,
   forceCustomNoResult: PropTypes.bool,
   onEnter: PropTypes.func,
+  onFocus: PropTypes.func,
 }
 
 Select.defaultProps = {
@@ -441,4 +443,5 @@ Select.defaultProps = {
   forceFooter: false,
   forceCustomNoResult: false,
   onEnter: undefined,
+  onFocus: undefined,
 }
