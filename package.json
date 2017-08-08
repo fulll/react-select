@@ -14,7 +14,7 @@
     "size": "gzip -c ./dist/react-select.min.js > ./dist/react-select.min.js.gz && gzip -lv ./dist/react-select.min.js.gz && rm ./dist/react-select.min.js.gz"
   },
   "name": "@ied/react-select",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Another select",
   "main": "dist/react-select.min.js",
   "repository": {
