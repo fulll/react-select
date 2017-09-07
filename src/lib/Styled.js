@@ -1,6 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 
+export const Root = styled.div`
+  position: relative;
+  width: 100%;
+  pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
+`
+
 export const NoResult = styled.div`
   width: 100%;
   color: black;

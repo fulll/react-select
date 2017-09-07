@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { isEqual, debounce, uniq } from './helpers'
 
 import {
+  Root,
   SelectBox,
   Tag,
   Text,
@@ -314,13 +315,10 @@ export default class Select extends React.Component {
     const OptionsWithoutValues = this.getOptions()
     const randomId = random()
     return (
-      <div
-        ref={(body) => { this.body = body }}
+      <Root
+        innerRef={(body) => { this.body = body }}
         onKeyDown={this.handleKey}
-        style={{
-          width: '100%',
-          pointerEvents: this.props.disabled ? 'none' : 'auto',
-        }}
+        disabled={this.props.disabled}
         onScroll={e => e.stopPropagation()}
       >
         {label && <Label focus={this.state.displayOptions}>
@@ -383,7 +381,7 @@ export default class Select extends React.Component {
             {Footer && (OptionsWithoutValues.length !== 0 || forceFooter) &&
               <Footer />}
           </Options>}
-      </div>
+      </Root>
     )
   }
 }
