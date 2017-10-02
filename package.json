@@ -14,7 +14,7 @@
     "size": "gzip -c ./dist/react-select.min.js > ./dist/react-select.min.js.gz && gzip -lv ./dist/react-select.min.js.gz && rm ./dist/react-select.min.js.gz"
   },
   "name": "@ied/react-select",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Another select",
   "main": "dist/react-select.min.js",
   "repository": {
@@ -25,8 +25,8 @@
   "license": "MIT",
   "dependencies": {
     "prop-types": "^15.5.10",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "styled-components": "^2.1.1"
   },
   "bugs": {

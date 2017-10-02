@@ -24,7 +24,7 @@ export const SelectBox = styled.div`
   align-items: center;
   border-bottom: 1px solid rgb(225, 225, 225);
   -webkit-font-smoothing: antialiased;
-  opacity: ${props => props.disabled ? 0.5 : 1};
+  opacity: ${props => (props.disabled ? 0.5 : 1)};
 `
 
 export const Tag = styled.div`
@@ -38,7 +38,7 @@ export const Tag = styled.div`
   user-select: none;
   padding: 4px 8px;
   &:hover {
-    background-color: #E57373
+    background-color: #e57373;
   }
 `
 
@@ -65,7 +65,7 @@ export const Options = styled.div`
   position: absolute;
   background: white;
   width: ${props => props.width}px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   border-radius: 2px;
   max-height: ${props => props.maxHeight}px;
   overflow-y: scroll;
@@ -87,8 +87,8 @@ export const OptionWrapper = styled.div`
 export const Label = styled.label`
   font-size: 12px;
   font-weight: 400;
-  color: ${props => props.focus ? 'black' : 'rgba(0, 0, 0, 0.26)'};
-  transition: color .3s;
+  color: ${props => (props.focus ? 'black' : 'rgba(0, 0, 0, 0.26)')};
+  transition: color 0.3s;
   font-family: Open sans, sans-serif;
 `
 
@@ -99,6 +99,4 @@ export const ArrowContainer = styled.span`
   height: 100%;
 `
 
-export const Arrow = props => (
-  <ArrowContainer {...props}>▾</ArrowContainer>
-)
+export const Arrow = props => <ArrowContainer {...props}>▾</ArrowContainer>
