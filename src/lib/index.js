@@ -104,10 +104,10 @@ export default class Select extends React.Component {
     if (customValidator && this.input) {
       const value = customValidator()
         .then(() => {
-          this.input.setCustomValidity('')
+          if (this.input) this.input.setCustomValidity('')
         })
         .catch(e => {
-          this.input.setCustomValidity(e)
+          if (this.input) this.input.setCustomValidity(e)
         })
     } else this.input.setCustomValidity('')
 
