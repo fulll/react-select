@@ -1,6 +1,7 @@
 /* eslint-disable react/no-multi-comp, jsx-a11y/no-static-element-interactions, no-console, react/no-unused-prop-types */
 import React from 'react'
 import PropTypes from 'prop-types'
+import escaperegexp from 'lodash.escaperegexp'
 
 import { isEqual, debounce, uniq } from './helpers'
 
@@ -183,7 +184,7 @@ export default class Select extends React.Component {
   getOptions = () => {
     const { filterText, values } = this.state
     const { options } = this.props
-    const regex = new RegExp(filterText, 'i')
+    const regex = new RegExp(escaperegexp(filterText), 'i')
     let filteredOptions = options.filter(
       item => item.label.match(regex) || item.disabled
     )
