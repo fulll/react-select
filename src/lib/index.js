@@ -336,7 +336,8 @@ export default class Select extends React.Component {
         }}
         onKeyDown={e => {
           this.handleKey(e)
-          this.props.onKeyDown && this.props.onKeyDown(e, selected)
+          this.props.onKeyDown &&
+            this.props.onKeyDown(e, this.props.options[selected])
         }}
         disabled={this.props.disabled}
         onScroll={e => e.stopPropagation()}
