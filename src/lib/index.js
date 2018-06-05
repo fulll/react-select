@@ -334,7 +334,10 @@ export default class Select extends React.Component {
         innerRef={body => {
           this.body = body
         }}
-        onKeyDown={this.handleKey}
+        onKeyDown={e => {
+          this.handleKey(e)
+          this.props.onKeyDown && this.props.onKeyDown(e, selected)
+        }}
         disabled={this.props.disabled}
         onScroll={e => e.stopPropagation()}
       >
