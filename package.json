@@ -1,16 +1,13 @@
 {
   "name": "@ied/react-select",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Another select",
   "main": "dist/react-select.min.js",
   "author": "Didier Franc",
   "license": "MIT",
   "dependencies": {
     "lodash.escaperegexp": "^4.1.2",
-    "prop-types": "^15.5.10",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "styled-components": "^3.2.3"
+    "prop-types": "^15.6.1"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
@@ -18,8 +15,16 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "styled-components": "^3.3.2",
     "webpack": "^3.2.0",
     "webpack-dev-server": "^2.5.1"
+  },
+  "peerDependencies" : {
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "styled-components": "^3.3.2"
   },
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.config.dev.js",
