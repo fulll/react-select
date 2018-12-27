@@ -15,7 +15,7 @@ import {
   Options,
   Label,
   TextContainer,
-  NoResult
+  NoResult,
 } from './Styled'
 
 const CustomOption = ({ item }: { item: {} }) => (
@@ -54,7 +54,7 @@ class Option extends React.Component {
         onClick={onClick}
         style={{
           backgroundColor: selected ? '#FAFAFA' : 'white',
-          fontWeight: selected ? 'bold' : 'normal'
+          fontWeight: selected ? 'bold' : 'normal',
         }}
       >
         {children}
@@ -64,13 +64,13 @@ class Option extends React.Component {
 }
 
 Option.defaultProps = {
-  onClick: undefined
+  onClick: undefined,
 }
 
 Option.propTypes = {
   selected: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 }
 
 export default class Select extends React.Component {
@@ -78,7 +78,7 @@ export default class Select extends React.Component {
     displayOptions: false,
     filterText: '',
     values: this.props.values,
-    selected: 0
+    selected: 0,
   }
 
   componentWillMount = () => {
@@ -186,7 +186,7 @@ export default class Select extends React.Component {
     const { options } = this.props
     const regex = new RegExp(escaperegexp(filterText), 'i')
     let filteredOptions = options.filter(
-      item => item.label.match(regex) || item.disabled
+      item => item.label.match(regex) || item.disabled,
     )
     let sectionToRemove = []
     const sections = filteredOptions.filter(v => v.section)
@@ -290,18 +290,18 @@ export default class Select extends React.Component {
   handleValue = value => {
     if (this.props.multi) {
       this.setState(
-        { values: uniq([...this.state.values, value]) },
-        this.onChange
+        { values: uniq([...this.state.values, value]), filterText: '' },
+        this.onChange,
       )
     } else {
-      this.setState({ values: [value] }, this.onChange)
+      this.setState({ values: [value], filterText: '' }, this.onChange)
     }
   }
 
   rm = value => {
     this.setState(
       { values: this.state.values.filter(v => v.value !== value) },
-      this.onChange
+      this.onChange,
     )
   }
 
@@ -324,7 +324,7 @@ export default class Select extends React.Component {
       Footer,
       forceHeader,
       forceFooter,
-      forceCustomNoResult
+      forceCustomNoResult,
     } = this.props
     const displayNoResult = filterText !== '' || forceCustomNoResult
     const OptionsWithoutValues = this.getOptions()
@@ -349,7 +349,7 @@ export default class Select extends React.Component {
               <span
                 style={{
                   color: displayOptions ? 'red' : 'lightgrey',
-                  paddingLeft: 5
+                  paddingLeft: 5,
                 }}
               >
                 *
@@ -388,8 +388,9 @@ export default class Select extends React.Component {
             maxHeight={this.props.maxHeight}
             onWheel={e => this.onOptionScroll(e)}
           >
-            {Header &&
-              (OptionsWithoutValues.length !== 0 || forceHeader) && <Header />}
+            {Header && (OptionsWithoutValues.length !== 0 || forceHeader) && (
+              <Header />
+            )}
             {OptionsWithoutValues.length !== 0
               ? OptionsWithoutValues.map((item, i) => (
                   <Option
@@ -403,8 +404,9 @@ export default class Select extends React.Component {
                   </Option>
                 ))
               : displayNoResult && <CustomNoResult />}
-            {Footer &&
-              (OptionsWithoutValues.length !== 0 || forceFooter) && <Footer />}
+            {Footer && (OptionsWithoutValues.length !== 0 || forceFooter) && (
+              <Footer />
+            )}
           </Options>
         )}
       </Root>
@@ -438,7 +440,7 @@ Select.propTypes = {
   forceFooter: PropTypes.bool,
   forceCustomNoResult: PropTypes.bool,
   onEnter: PropTypes.func,
-  onFocus: PropTypes.func
+  onFocus: PropTypes.func,
 }
 
 Select.defaultProps = {
@@ -467,5 +469,5 @@ Select.defaultProps = {
   forceFooter: false,
   forceCustomNoResult: false,
   onEnter: undefined,
-  onFocus: undefined
+  onFocus: undefined,
 }
