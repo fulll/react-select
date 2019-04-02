@@ -1,77 +1,24 @@
 /* eslint-disable react/no-multi-comp, jsx-a11y/no-static-element-interactions, no-console, react/no-unused-prop-types */
 import React from 'react'
 import PropTypes from 'prop-types'
-import escaperegexp from 'lodash.escaperegexp'
 
-import { isEqual, debounce, uniq } from './helpers'
+import { isEqual, debounce, uniq, random } from '../helpers/helpers'
+import { onOptionScroll } from '../helpers/optionScroll'
+import { getNextIndex } from '../helpers/getNextIndex'
+import { getOptions } from '../helpers/getOptions'
+import { CustomNoResult, CustomOption, CustomTag } from './CustomComponents'
 
 import {
   Root,
   SelectBox,
-  Tag,
   Text,
   Arrow,
-  OptionWrapper,
   Options,
   Label,
   TextContainer,
-  NoResult,
 } from './Styled'
 
-const CustomOption = ({ item }: { item: {} }) => (
-  <OptionWrapper>{item.label}</OptionWrapper>
-)
-
-const CustomTag = ({ item, rm }: { item: {}, rm: Function }) => (
-  <Tag onClick={rm}>{item.label}</Tag>
-)
-
-const CustomNoResult = () => <NoResult>No result found</NoResult>
-
-const random = () =>
-  Math.random()
-    .toString()
-    .slice(-4)
-
-class Option extends React.Component {
-  componentWillReceiveProps = nextProps => {
-    if (nextProps.selected) {
-      const parent = this.option.parentNode
-      const h = this.option.offsetHeight
-      const pos = this.option.offsetTop + h
-      const next = pos > 200 ? pos - 200 : 0
-      parent.scrollTop = next
-    }
-  }
-
-  render = () => {
-    const { selected, children, onClick } = this.props
-    return (
-      <div
-        ref={option => {
-          this.option = option
-        }}
-        onClick={onClick}
-        style={{
-          backgroundColor: selected ? '#FAFAFA' : 'white',
-          fontWeight: selected ? 'bold' : 'normal',
-        }}
-      >
-        {children}
-      </div>
-    )
-  }
-}
-
-Option.defaultProps = {
-  onClick: undefined,
-}
-
-Option.propTypes = {
-  selected: PropTypes.bool.isRequired,
-  children: PropTypes.node.isRequired,
-  onClick: PropTypes.func,
-}
+import Option from './Option'
 
 export default class Select extends React.Component {
   state = {
@@ -81,14 +28,17 @@ export default class Select extends React.Component {
     selected: 0,
   }
 
-  componentWillMount = () => {
+  // componentWillMount = () => {
+  //   this.debouncedHandleSize = debounce(this.handleSize, 300)
+  //   document.addEventListener('mousedown', this.blur)
+  //   window.addEventListener('resize', this.debouncedHandleSize)
+  // }
+
+  componentDidMount = () => {
     this.debouncedHandleSize = debounce(this.handleSize, 300)
     document.addEventListener('mousedown', this.blur)
     window.addEventListener('resize', this.debouncedHandleSize)
-  }
-
-  componentDidMount = () => {
-    this.handleSize()
+    // this.handleSize()
   }
 
   componentWillReceiveProps = nextProps => {
@@ -139,95 +89,6 @@ export default class Select extends React.Component {
     this.clear()
   }
 
-  onOptionScroll = e => {
-    const scrollTop = this.options.scrollTop
-    const scrollHeight = this.options.scrollHeight
-    const height = this.options.offsetHeight
-    const deltaY = e.deltaY
-    const scrollDown = deltaY > 0
-
-    if (scrollDown && deltaY > scrollHeight - height - scrollTop) {
-      if (this.props.preventParentScroll) {
-        if (this.props.reachedBottom) {
-          const sameH = this.options.offsetHeight === this.options.scrollHeight
-          if (!this.reachedBottom && !sameH) {
-            this.reachedBottom = true
-            this.props.reachedBottom()
-          }
-        }
-        this.options.scrollTop = scrollHeight - height
-        e.preventDefault()
-        e.stopPropagation()
-      }
-    } else if (!scrollDown && -deltaY > scrollTop) {
-      if (this.props.reachedTop) {
-        const sameH = this.options.offsetHeight === this.options.scrollHeight
-        if (!this.reachedTop && !sameH) {
-          this.reachedTop = true
-          this.props.reachedTop()
-        }
-      }
-      if (this.props.preventParentScroll) {
-        this.options.scrollTop = 0
-        e.preventDefault()
-        e.stopPropagation()
-      }
-    } else if (
-      this.options.scrollTop !== 0 &&
-      this.options.scrollTop !== scrollHeight - height
-    ) {
-      this.reachedTop = false
-      this.reachedBottom = false
-    }
-  }
-
-  getOptions = () => {
-    const { filterText, values } = this.state
-    const { options } = this.props
-    const regex = new RegExp(escaperegexp(filterText), 'i')
-    let filteredOptions = options.filter(
-      item => item.label.match(regex) || item.disabled,
-    )
-    let sectionToRemove = []
-    const sections = filteredOptions.filter(v => v.section)
-    sections.forEach(section => {
-      if (
-        !filteredOptions.filter(v => {
-          const sameId = v.sectionId === section.sectionId
-          const notSection = !v.section
-          return sameId && notSection
-        })[0]
-      ) {
-        sectionToRemove = [...sectionToRemove, section.sectionId]
-      }
-    })
-    if (sectionToRemove.length !== 0) {
-      filteredOptions = filteredOptions.filter(v => {
-        if (v.section && sectionToRemove.indexOf(v.sectionId) !== -1) {
-          return false
-        }
-        return true
-      })
-    }
-
-    const cValues = values.map(e => e.value)
-    return filteredOptions.filter(e => cValues.indexOf(e.value) === -1)
-  }
-
-  getNextIndex = (index, minus) => {
-    const options = this.getOptions()
-    if (minus) {
-      let nextIndex = index - 2
-      const item = options[nextIndex]
-      if (!item.disabled) nextIndex += 1
-      return nextIndex
-    }
-    let nextIndex = index + 1
-    const item = options[index]
-    if (item.disabled) nextIndex += 1
-    return nextIndex
-  }
-
   handleSize = () => {
     if (this.body) this.setState({ width: this.body.offsetWidth })
   }
@@ -237,19 +98,30 @@ export default class Select extends React.Component {
   }
 
   handleKey = e => {
-    const { selected } = this.state
-    const OptionsWithoutValues = this.getOptions()
+    const { selected, values, filterText } = this.state
+    const { options } = this.props
+    const OptionsWithoutValues = getOptions(values, filterText, options)
     const { onEnter } = this.props
 
     const l = OptionsWithoutValues.length
     const s = selected
     if (e.keyCode === 40) {
-      this.setState({ selected: s < l ? this.getNextIndex(s, false) : l })
+      this.setState({
+        selected:
+          s < l
+            ? getNextIndex(s, false, getOptions, values, filterText, options)
+            : l,
+      })
       e.preventDefault()
       e.stopPropagation()
     }
     if (e.keyCode === 38) {
-      this.setState({ selected: s > 1 ? this.getNextIndex(s, true) : s })
+      this.setState({
+        selected:
+          s > 1
+            ? getNextIndex(s, true, getOptions, values, filterText, options)
+            : s,
+      })
       e.preventDefault()
       e.stopPropagation()
     }
@@ -275,9 +147,9 @@ export default class Select extends React.Component {
     }
   }
 
-  handleText = ({ target }) => {
-    this.props.onTextChange(target.value)
-    this.setState({ filterText: target.value, selected: 0 })
+  handleText = ({ target: { value } }) => {
+    this.props.onTextChange(value)
+    this.setState({ filterText: value, selected: 0 })
   }
 
   focus = () => {
@@ -325,10 +197,12 @@ export default class Select extends React.Component {
       forceHeader,
       forceFooter,
       forceCustomNoResult,
+      options,
     } = this.props
     const displayNoResult = filterText !== '' || forceCustomNoResult
-    const OptionsWithoutValues = this.getOptions()
+    const OptionsWithoutValues = getOptions(values, filterText, options)
     const randomId = random()
+    console.log(console.log(CustomNoResult))
     return (
       <Root
         innerRef={body => {
@@ -386,7 +260,15 @@ export default class Select extends React.Component {
             }}
             width={this.state.width}
             maxHeight={this.props.maxHeight}
-            onWheel={e => this.onOptionScroll(e)}
+            onWheel={e =>
+              onOptionScroll(
+                e,
+                this.options,
+                this.props.preventParentScroll,
+                this.props.reachedBottom,
+                this.reachedBottom,
+              )
+            }
           >
             {Header && (OptionsWithoutValues.length !== 0 || forceHeader) && (
               <Header />

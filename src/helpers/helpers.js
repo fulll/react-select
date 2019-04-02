@@ -25,3 +25,8 @@ export const uniq = array =>
     const exist = r.map(e => e.value).indexOf(v.value) > -1
     return exist ? r : [...r, v]
   }, [])
+
+export const random = () =>
+  Math.random()
+    .toString()
+    .slice(-4)
