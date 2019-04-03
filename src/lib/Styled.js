@@ -15,7 +15,7 @@ export const NoResult = styled.div`
   box-sizing: border-box;
 `
 
-export const SelectBox = styled.div`
+export const Field = styled.div`
   font-family: Open Sans, sans-serif;
   width: 100%;
   display: flex;
@@ -49,7 +49,7 @@ export const TextContainer = styled.div`
   flex: 1;
 `
 
-export const Text = styled.input`
+export const Input = styled.input`
   outline: none;
   background: transparent;
   border: none;
@@ -61,7 +61,7 @@ export const Text = styled.input`
   min-width: ${props => props.minWidth}px;
 `
 
-export const Options = styled.div`
+export const OptionsContainer = styled.div`
   position: absolute;
   background: white;
   width: ${props => props.width}px;
