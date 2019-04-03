@@ -18,7 +18,3 @@ export const getNextIndex = (
   if (item.disabled) nextIndex += 1
   return nextIndex
 }
-
-export const handleText = ({ target: { value } }, textChange) => {
-  return textChange(value)
-}

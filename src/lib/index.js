@@ -7,6 +7,7 @@ import { onOptionScroll } from '../helpers/optionScroll'
 import { getNextIndex } from '../helpers/getNextIndex'
 import { getOptions } from '../helpers/getOptions'
 import { CustomNoResult, CustomOption, CustomTag } from './CustomComponents'
+import { handleText } from '../helpers/handler'
 
 import {
   Root,
@@ -86,15 +87,11 @@ export default class Select extends React.Component {
       this.input.blur()
       this.setState({ displayOptions: false })
     }
-    this.clear()
+    this.setState({ selected: 0, filterText: '' })
   }
 
   handleSize = () => {
     if (this.body) this.setState({ width: this.body.offsetWidth })
-  }
-
-  clear = () => {
-    this.setState({ selected: 0, filterText: '' })
   }
 
   handleKey = e => {
@@ -145,11 +142,6 @@ export default class Select extends React.Component {
       e.preventDefault()
       e.stopPropagation()
     }
-  }
-
-  handleText = ({ target: { value } }) => {
-    this.props.onTextChange(value)
-    this.setState({ filterText: value, selected: 0 })
   }
 
   focus = () => {
@@ -243,7 +235,12 @@ export default class Select extends React.Component {
               innerRef={input => {
                 this.input = input
               }}
-              onChange={this.handleText}
+              onChange={e =>
+                this.setState({
+                  filterText: handleText(e, this.props.onTextChange).filterText,
+                  selected: handleText(e, this.props.onTextChange).selected,
+                })
+              }
               value={this.state.filterText}
               name={`select-search-${randomId}`}
               onFocus={this.focus}
