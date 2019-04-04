@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 class Option extends Component {
-  componentWillReceiveProps = nextProps => {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.selected) {
       const parent = this.option.parentNode
       const parentHeight = parent.clientHeight
@@ -14,7 +14,7 @@ class Option extends Component {
     }
   }
 
-  render = () => {
+  render() {
     const { selected, children, onClick } = this.props
     return (
       <div

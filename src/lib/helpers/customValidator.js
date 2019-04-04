@@ -1,11 +1,11 @@
 const customValidator = (customValidator, input) => {
   if (customValidator && input) {
-    const value = customValidator()
+    customValidator()
       .then(() => {
-        if (input) input.setCustomValidity('')
+        input.setCustomValidity('')
       })
       .catch(e => {
-        if (input) input.setCustomValidity(e)
+        input.setCustomValidity(e)
       })
   } else input.setCustomValidity('')
 }

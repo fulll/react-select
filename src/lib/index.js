@@ -23,13 +23,13 @@ export default class Select extends React.Component {
     selected: 0,
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     this.debouncedHandleSize = debounce(this.handleSize, 300)
     document.addEventListener('mousedown', this.blur)
     window.addEventListener('resize', this.debouncedHandleSize)
   }
 
-  componentWillReceiveProps = nextProps => {
+  componentWillReceiveProps(nextProps) {
     if (!isEqual(nextProps.values, this.state.values)) {
       this.setState({ values: nextProps.values })
     }
@@ -38,7 +38,7 @@ export default class Select extends React.Component {
     }
   }
 
-  componentDidUpdate = () => {
+  componentDidUpdate() {
     customValidator(this.props.customValidator, this.input)
 
     if (this.options && this.props.reachedTop) {
@@ -53,7 +53,7 @@ export default class Select extends React.Component {
     }
   }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     document.removeEventListener('mousedown', this.blur)
     window.removeEventListener('resize', this.debouncedHandleSize)
   }

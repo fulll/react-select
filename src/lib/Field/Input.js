@@ -11,19 +11,17 @@ const InputField = ({
   placeholder,
   minWidth,
   handleChange,
-}) => {
-  return (
-    <Input
-      disabled={noFilter}
-      innerRef={innerRef}
-      onChange={handleChange}
-      value={filterText}
-      name={name}
-      onFocus={focus}
-      placeholder={placeholder}
-      minWidth={minWidth}
-    />
-  )
-}
+}) => (
+  <Input
+    disabled={noFilter}
+    innerRef={innerRef}
+    onChange={handleChange}
+    value={filterText}
+    name={name}
+    onFocus={focus}
+    placeholder={placeholder}
+    minWidth={minWidth}
+  />
+)
 
 export default InputField
