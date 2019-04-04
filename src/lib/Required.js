@@ -3,7 +3,7 @@ import React from 'react'
 const Required = ({ displayOptions }) => (
   <span
     style={{
-      color: displayOptions ? 'red' : 'lightgrey',
+      color: displayOptions ? '#222' : 'lightgrey',
       paddingLeft: 5,
     }}
   >

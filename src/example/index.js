@@ -7,11 +7,14 @@ const options = [
   { value: 1, label: 'Option 1' },
   { value: 2, label: 'Option 2' },
   { value: 3, label: 'Option 3' },
+  { value: 4, label: 'Option 4' },
+  { value: 5, label: 'Option 5' },
+  { value: 6, label: 'Option 6' },
 ]
 
 class SelectExample extends Component {
   state = {
-    values: []
+    values: [],
   }
   handleChange = (value, options) => {
     this.setState({ values: options })
@@ -19,13 +22,13 @@ class SelectExample extends Component {
 
   onSubmit = e => {
     e.preventDefault()
-    alert('Successfully validated 😜');
+    alert('Successfully validated 😜')
   }
 
   customValidator = () => {
     const { values } = this.state
     if (values.length < 1) {
-      const message = "1 option required"
+      const message = '1 option required'
       return Promise.reject(message)
     }
     return Promise.resolve()
@@ -33,9 +36,7 @@ class SelectExample extends Component {
 
   render() {
     return (
-      <form
-        onSubmit={this.onSubmit}
-      >
+      <form onSubmit={this.onSubmit}>
         <Select
           values={this.state.values}
           onChange={this.handleChange}

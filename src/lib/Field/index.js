@@ -18,6 +18,7 @@ const Field = ({
   minWidth,
   innerRef,
 }) => {
+  console.log(values)
   return (
     <FieldContainer onClick={focus} disabled={disabled}>
       <TextContainer>
