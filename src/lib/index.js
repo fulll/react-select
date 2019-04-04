@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { isEqual, debounce, uniq, random } from './helpers/helpers'
-import getOptions from '../helpers/getOptions'
+import getOptions from './helpers/getOptions'
 import handleKeyDown from './helpers/handleKeyDown'
 import { handleText } from './helpers/handler'
 import customValidator from './helpers/customValidator'
@@ -81,6 +81,7 @@ export default class Select extends React.Component {
   handleKey = e => {
     const { selected, values, filterText } = this.state
     const { options, onEnter } = this.props
+    e.persist()
     const value = handleKeyDown(
       e,
       selected,
@@ -152,6 +153,8 @@ export default class Select extends React.Component {
       noFilter,
       inputMinWidth,
       maxHeight,
+      reachedTop,
+      reachedBottom,
     } = this.props
     const displayNoResult = filterText !== '' || forceCustomNoResult
     const OptionsWithoutValues = getOptions(values, filterText, options)
@@ -200,9 +203,8 @@ export default class Select extends React.Component {
             Footer={Footer}
             width={width}
             maxHeight={maxHeight}
-            preventParentScroll={this.props.preventParentScroll}
-            reachedBottomProp={this.props.reachedBottom}
-            reachedBottom={this.reachedBottom}
+            reachedBottom={reachedBottom}
+            reachedTop={reachedTop}
           />
         )}
       </Root>
@@ -255,7 +257,7 @@ Select.defaultProps = {
   label: null,
   customValidator: undefined,
   disabled: false,
-  maxHeight: 220,
+  maxHeight: 150,
   inputMinWidth: 10,
   preventParentScroll: false,
   reachedTop: undefined,

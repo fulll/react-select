@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 
-import { onOptionScroll } from '../helpers/optionScroll'
-
+import onOptionScroll from '../helpers/optionScroll'
 import { OptionFooter, OptionHeader } from './HeaderFooter'
 import OptionDisplay from './OptionsDisplay'
 
@@ -18,9 +17,8 @@ const Options = ({
   Footer,
   width,
   maxHeight,
-  preventParentScroll,
-  reachedBottomProp,
   reachedBottom,
+  reachedTop,
 }) => {
   return (
     <Fragment>
@@ -30,15 +28,9 @@ const Options = ({
         }}
         width={width}
         maxHeight={maxHeight}
-        onWheel={e =>
-          onOptionScroll(
-            e,
-            this.options,
-            preventParentScroll,
-            reachedBottomProp,
-            reachedBottom,
-          )
-        }
+        onScroll={e => {
+          onOptionScroll(e, reachedBottom, reachedTop)
+        }}
       >
         <OptionHeader
           options={options}

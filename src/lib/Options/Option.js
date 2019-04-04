@@ -5,9 +5,11 @@ class Option extends Component {
   componentWillReceiveProps = nextProps => {
     if (nextProps.selected) {
       const parent = this.option.parentNode
+      const parentHeight = parent.clientHeight
       const h = this.option.offsetHeight
       const pos = this.option.offsetTop + h
-      const next = pos > 200 ? pos - 200 : 0
+
+      const next = pos > parentHeight ? pos - parentHeight : 0
       parent.scrollTop = next
     }
   }
