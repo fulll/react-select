@@ -1,11 +1,6 @@
-export const getNextIndex = (
-  index,
-  minus,
-  getOptions,
-  values,
-  filterText,
-  optionsProp,
-) => {
+import getOptions from './getOptions'
+
+export default (index, minus, values, filterText, optionsProp) => {
   const options = getOptions(values, filterText, optionsProp)
   if (minus) {
     let nextIndex = index - 2

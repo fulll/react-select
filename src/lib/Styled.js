@@ -15,7 +15,7 @@ export const NoResult = styled.div`
   box-sizing: border-box;
 `
 
-export const Field = styled.div`
+export const FieldContainer = styled.div`
   font-family: Open Sans, sans-serif;
   width: 100%;
   display: flex;
@@ -73,7 +73,7 @@ export const OptionsContainer = styled.div`
 `
 
 export const OptionWrapper = styled.div`
-  cursor: pointer
+  cursor: pointer;
   box-sizing: border-box;
   padding: 10px;
   font-family: Open Sans, sans-serif;

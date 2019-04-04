@@ -3,29 +3,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { isEqual, debounce, uniq, random } from '../helpers/helpers'
-import { onOptionScroll } from '../helpers/optionScroll'
-import { getNextIndex } from '../helpers/getNextIndex'
-import { getOptions } from '../helpers/getOptions'
+import getOptions from '../helpers/getOptions'
+import handleKeyDown from '../helpers/handleKeyDown'
 import { handleText } from '../helpers/handler'
-import { customValidator } from '../helpers/customValidator'
+import customValidator from '../helpers/customValidator'
 
-import {
-  Root,
-  Field,
-  Input,
-  Arrow,
-  OptionsContainer,
-  Label,
-  TextContainer,
-} from './Styled'
+import { Root, Label } from './Styled'
 
-import Option from './Option'
-import {
-  CustomNoResult,
-  CustomOption,
-  CustomTag,
-  CustomOptionHeader,
-} from './CustomComponents'
+import Field from './Field'
+import Options from './Options'
+import { CustomNoResult, CustomOption, CustomTag } from './CustomComponents'
 import Required from './Required'
 
 export default class Select extends React.Component {
@@ -71,6 +58,12 @@ export default class Select extends React.Component {
     window.removeEventListener('resize', this.debouncedHandleSize)
   }
 
+  input = null
+
+  getInputRef = elm => {
+    this.input = elm
+  }
+
   onChange = () => {
     this.props.onChange(this.state.values.map(v => v.value), this.state.values)
     if (this.props.multi) this.focus()
@@ -87,52 +80,20 @@ export default class Select extends React.Component {
 
   handleKey = e => {
     const { selected, values, filterText } = this.state
-    const { options } = this.props
-    const OptionsWithoutValues = getOptions(values, filterText, options)
-    const { onEnter } = this.props
-
-    const l = OptionsWithoutValues.length
-    const s = selected
-    if (e.keyCode === 40) {
-      this.setState({
-        selected:
-          s < l
-            ? getNextIndex(s, false, getOptions, values, filterText, options)
-            : l,
+    const { options, onEnter } = this.props
+    const value = handleKeyDown(
+      e,
+      selected,
+      values,
+      filterText,
+      options,
+      onEnter,
+      this.handleValue,
+    )
+    if (value)
+      this.setState(value, (...params) => {
+        if (e.keyCode === 8 && filterText === '') this.onChange(params)
       })
-      e.preventDefault()
-      e.stopPropagation()
-    }
-    if (e.keyCode === 38) {
-      this.setState({
-        selected:
-          s > 1
-            ? getNextIndex(s, true, getOptions, values, filterText, options)
-            : s,
-      })
-      e.preventDefault()
-      e.stopPropagation()
-    }
-    if (e.keyCode === 8 && this.state.filterText === '') {
-      this.setState({ values: this.state.values.slice(0, -1) }, this.onChange)
-    }
-    if (e.keyCode === 13 && this.state.selected > 0) {
-      const value = OptionsWithoutValues[this.state.selected - 1]
-      if (onEnter) {
-        onEnter(value, () => {
-          this.handleValue(value)
-        })
-      } else {
-        e.preventDefault()
-        e.stopPropagation()
-        this.handleValue(value)
-      }
-    }
-    if (e.keyCode === 9) this.setState({ displayOptions: false, selected: 0 })
-    if (e.keyCode === 13 && !onEnter) {
-      e.preventDefault()
-      e.stopPropagation()
-    }
   }
 
   focus = () => {
@@ -153,6 +114,14 @@ export default class Select extends React.Component {
     }
   }
 
+  handleInputChange = e => {
+    const { onTextChange } = this.props
+    this.setState({
+      filterText: handleText(e, onTextChange).filterText,
+      selected: handleText(e, onTextChange).selected,
+    })
+  }
+
   rm = value => {
     this.setState(
       { values: this.state.values.filter(v => v.value !== value) },
@@ -169,9 +138,6 @@ export default class Select extends React.Component {
   render = () => {
     const { displayOptions, values, selected, filterText, width } = this.state
     const {
-      CustomOption,
-      CustomTag,
-      CustomNoResult,
       label,
       customValidator,
       placeholder,
@@ -184,7 +150,6 @@ export default class Select extends React.Component {
       onKeyDown,
       disabled,
       noFilter,
-      onTextChange,
       inputMinWidth,
       maxHeight,
     } = this.props
@@ -210,89 +175,35 @@ export default class Select extends React.Component {
             {customValidator && <Required displayOptions={displayOptions} />}
           </Label>
         )}
-        {/* < InputField 
-          disabled={disabled}
-          focus={this.focus}
+        <Field
           values={values}
+          disabled={disabled}
           noFilter={noFilter}
-          handleChange={e =>
-            this.setState({
-              filterText: handleText(e, onTextChange).filterText,
-              selected: handleText(e, onTextChange).selected,
-            })
-          }
+          handleChange={this.handleInputChange}
+          rm={this.rm}
           filterText={filterText}
           name={`select-search-${randomId}`}
+          focus={this.focus}
           placeholder={placeholder}
           minWidth={inputMinWidth}
-        /> */}
-        <Field onClick={this.focus} disabled={disabled}>
-          <TextContainer>
-            {values.map(item => (
-              <div key={item.value}>
-                <CustomTag item={item} rm={() => this.rm(item.value)} />
-              </div>
-            ))}
-            <Input
-              disabled={noFilter}
-              innerRef={input => {
-                this.input = input
-              }}
-              onChange={e =>
-                this.setState({
-                  filterText: handleText(e, onTextChange).filterText,
-                  selected: handleText(e, onTextChange).selected,
-                })
-              }
-              value={filterText}
-              name={`select-search-${randomId}`}
-              onFocus={this.focus}
-              placeholder={placeholder}
-              minWidth={inputMinWidth}
-            />
-          </TextContainer>
-          <Arrow />
-        </Field>
+          innerRef={this.getInputRef}
+        />
         {displayOptions && (
-          <OptionsContainer
-            innerRef={options => {
-              this.options = options
-            }}
+          <Options
+            options={OptionsWithoutValues}
+            forceHeader={forceHeader}
+            Header={Header}
+            noResult={displayNoResult}
+            handleValue={this.handleValue}
+            selected={selected}
+            forceFooter={forceFooter}
+            Footer={Footer}
             width={width}
             maxHeight={maxHeight}
-            onWheel={e =>
-              onOptionScroll(
-                e,
-                this.options,
-                this.props.preventParentScroll,
-                this.props.reachedBottom,
-                this.reachedBottom,
-              )
-            }
-          >
-            <CustomOptionHeader
-              options={OptionsWithoutValues}
-              forceHeader={forceHeader}
-              Header={Header}
-            />
-
-            {OptionsWithoutValues.length !== 0
-              ? OptionsWithoutValues.map((item, i) => (
-                  <Option
-                    selected={selected === i + 1}
-                    key={item.value}
-                    onClick={
-                      item.disabled ? undefined : () => this.handleValue(item)
-                    }
-                  >
-                    <CustomOption item={item} />
-                  </Option>
-                ))
-              : displayNoResult && <CustomNoResult />}
-            {Footer && (OptionsWithoutValues.length !== 0 || forceFooter) && (
-              <Footer />
-            )}
-          </OptionsContainer>
+            preventParentScroll={this.props.preventParentScroll}
+            reachedBottomProp={this.props.reachedBottom}
+            reachedBottom={this.reachedBottom}
+          />
         )}
       </Root>
     )
