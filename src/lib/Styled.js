@@ -41,15 +41,13 @@ export const FieldContainer = styled.div`
 `
 
 export const Tag = styled.div`
-  background-color: #d0d0ce;
-  margin: 4px 0 4px 10px;
   box-sizing: border-box;
   vertical-align: middle;
   font-size: 14px;
   border-radius: 4px;
   cursor: default;
   user-select: none;
-  padding: 3px 7px;
+  padding: 3px 4px;
   &:hover {
     cursor: pointer;
   }
@@ -101,8 +99,8 @@ export const OptionWrapper = styled.div`
 
 export const Label = styled.label`
   position: absolute;
-  left: 16px;
-  top: ${props => (props.focus || props.value.length > 0 ? '5px' : '19px')};
+  left: 8px;
+  top: ${props => (props.focus || props.value.length > 0 ? '8px' : '19px')};
   font-size: ${props =>
     props.focus || props.value.length > 0 ? '12px' : '16px'};
   font-weight: 400;
