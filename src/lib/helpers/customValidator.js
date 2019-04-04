@@ -1,4 +1,4 @@
-export default (customValidator, input) => {
+const customValidator = (customValidator, input) => {
   if (customValidator && input) {
     const value = customValidator()
       .then(() => {
@@ -9,3 +9,5 @@ export default (customValidator, input) => {
       })
   } else input.setCustomValidity('')
 }
+
+export default customValidator

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import { onOptionScroll } from '../../helpers/optionScroll'
+import { onOptionScroll } from '../helpers/optionScroll'
 
 import { OptionFooter, OptionHeader } from './HeaderFooter'
 import OptionDisplay from './OptionsDisplay'

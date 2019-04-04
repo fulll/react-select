@@ -1,10 +1,12 @@
 import getOptions from './getOptions'
 import getNextIndex from './getNextIndex'
+
 const stopEvent = e => {
   e.preventDefault()
   e.stopPropagation()
 }
-export default (
+
+const handleKeyDown = (
   e,
   selected,
   values,
@@ -24,15 +26,18 @@ export default (
       selected: s < l ? getNextIndex(s, false, values, filterText, options) : l,
     }
   }
+
   if (e.keyCode === 38) {
     stopEvent(e)
     return {
       selected: s > 1 ? getNextIndex(s, true, values, filterText, options) : s,
     }
   }
+
   if (e.keyCode === 8 && filterText === '') {
     return { values: values.slice(0, -1) }
   }
+
   if (e.keyCode === 13 && selected > 0) {
     const value = OptionsWithoutValues[selected - 1]
 
@@ -43,6 +48,9 @@ export default (
       handleValue(value)
     }
   }
+
   if (e.keyCode === 9) return { displayOptions: false, selected: 0 }
   if (e.keyCode === 13 && !onEnter) stopEvent(e)
 }
+
+export default handleKeyDown

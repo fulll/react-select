@@ -1,6 +1,6 @@
 import escaperegexp from 'lodash.escaperegexp'
 
-export default (values, filterText, options) => {
+const getOptions = (values, filterText, options) => {
   const regex = new RegExp(escaperegexp(filterText), 'i')
   let filteredOptions = options.filter(
     item => item.label.match(regex) || item.disabled,
@@ -30,3 +30,5 @@ export default (values, filterText, options) => {
   const cValues = values.map(e => e.value)
   return filteredOptions.filter(e => cValues.indexOf(e.value) === -1)
 }
+
+export default getOptions

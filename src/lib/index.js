@@ -2,11 +2,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { isEqual, debounce, uniq, random } from '../helpers/helpers'
+import { isEqual, debounce, uniq, random } from './helpers/helpers'
 import getOptions from '../helpers/getOptions'
-import handleKeyDown from '../helpers/handleKeyDown'
-import { handleText } from '../helpers/handler'
-import customValidator from '../helpers/customValidator'
+import handleKeyDown from './helpers/handleKeyDown'
+import { handleText } from './helpers/handler'
+import customValidator from './helpers/customValidator'
 
 import { Root, Label } from './Styled'
 
