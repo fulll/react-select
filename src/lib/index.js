@@ -173,9 +173,14 @@ export default class Select extends React.Component {
         }}
         disabled={disabled}
         onScroll={e => e.stopPropagation()}
+        onClick={this.focus}
       >
         {label && (
-          <Label focus={displayOptions}>
+          <Label
+            focus={displayOptions}
+            value={values}
+            onClick={this.handleFocus}
+          >
             {label}
             {customValidator && <Required displayOptions={displayOptions} />}
           </Label>
