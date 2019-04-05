@@ -37,7 +37,7 @@ export const FieldContainer = styled.div`
   align-items: center;
   -webkit-font-smoothing: antialiased;
   opacity: ${props => (props.disabled ? 0.5 : 1)};
-  margin-top: 12px;
+  margin-top: 16px;
 `
 
 export const Tag = styled.div`
