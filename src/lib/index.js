@@ -2,11 +2,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { isEqual, debounce, uniq, random } from '../helpers/helpers'
-import getOptions from '../helpers/getOptions'
-import handleKeyDown from '../helpers/handleKeyDown'
-import { handleText } from '../helpers/handler'
-import customValidator from '../helpers/customValidator'
+import { isEqual, debounce, uniq, random } from './helpers/helpers'
+import getOptions from './helpers/getOptions'
+import handleKeyDown from './helpers/handleKeyDown'
+import { handleText } from './helpers/handler'
+import customValidator from './helpers/customValidator'
 
 import { Root, Label } from './Styled'
 
@@ -23,13 +23,13 @@ export default class Select extends React.Component {
     selected: 0,
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     this.debouncedHandleSize = debounce(this.handleSize, 300)
-    document.addEventListener('mousedown', this.blur)
+    document.addEventListener('mousedown', this.handleBlur)
     window.addEventListener('resize', this.debouncedHandleSize)
   }
 
-  componentWillReceiveProps = nextProps => {
+  componentWillReceiveProps(nextProps) {
     if (!isEqual(nextProps.values, this.state.values)) {
       this.setState({ values: nextProps.values })
     }
@@ -38,7 +38,7 @@ export default class Select extends React.Component {
     }
   }
 
-  componentDidUpdate = () => {
+  componentDidUpdate() {
     customValidator(this.props.customValidator, this.input)
 
     if (this.options && this.props.reachedTop) {
@@ -53,8 +53,8 @@ export default class Select extends React.Component {
     }
   }
 
-  componentWillUnmount = () => {
-    document.removeEventListener('mousedown', this.blur)
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleBlur)
     window.removeEventListener('resize', this.debouncedHandleSize)
   }
 
@@ -66,8 +66,10 @@ export default class Select extends React.Component {
 
   onChange = () => {
     this.props.onChange(this.state.values.map(v => v.value), this.state.values)
-    if (this.props.multi) this.focus()
-    else if (!this.props.multi && this.state.values[0]) {
+
+    if (this.props.multi) this.handleFocus()
+
+    if (!this.props.multi && this.state.values[0]) {
       this.input.blur()
       this.setState({ displayOptions: false })
     }
@@ -81,6 +83,7 @@ export default class Select extends React.Component {
   handleKey = e => {
     const { selected, values, filterText } = this.state
     const { options, onEnter } = this.props
+    e.persist()
     const value = handleKeyDown(
       e,
       selected,
@@ -92,12 +95,12 @@ export default class Select extends React.Component {
     )
     if (value)
       this.setState(value, (...params) => {
-        if (e.keyCode === 8 && filterText === '') this.onChange(params)
+        if (e.key === 'Backspace' && filterText === '') this.onChange(params)
       })
   }
 
-  focus = () => {
-    if (this.props.onFocus) this.props.onFocus()
+  handleFocus = () => {
+    this.props.onFocus && this.props.onFocus()
     this.input.focus()
     this.setState({ displayOptions: true })
     this.handleSize()
@@ -122,14 +125,14 @@ export default class Select extends React.Component {
     })
   }
 
-  rm = value => {
+  handleRemove = value => {
     this.setState(
       { values: this.state.values.filter(v => v.value !== value) },
       this.onChange,
     )
   }
 
-  blur = e => {
+  handleBlur = e => {
     if (this.body && !this.body.contains(e.target)) {
       this.setState({ displayOptions: false, selected: 0 })
     }
@@ -152,6 +155,8 @@ export default class Select extends React.Component {
       noFilter,
       inputMinWidth,
       maxHeight,
+      reachedTop,
+      reachedBottom,
     } = this.props
     const displayNoResult = filterText !== '' || forceCustomNoResult
     const OptionsWithoutValues = getOptions(values, filterText, options)
@@ -171,7 +176,11 @@ export default class Select extends React.Component {
         onClick={this.focus}
       >
         {label && (
-          <Label focus={displayOptions} value={values} onClick={this.focus}>
+          <Label
+            focus={displayOptions}
+            value={values}
+            onClick={this.handleFocus}
+          >
             {label}
             {customValidator && <Required displayOptions={displayOptions} />}
           </Label>
@@ -181,10 +190,10 @@ export default class Select extends React.Component {
           disabled={disabled}
           noFilter={noFilter}
           handleChange={this.handleInputChange}
-          rm={this.rm}
+          handleRemove={this.handleRemove}
           filterText={filterText}
           name={`select-search-${randomId}`}
-          focus={this.focus}
+          handleFocus={this.handleFocus}
           placeholder={placeholder}
           minWidth={inputMinWidth}
           innerRef={this.getInputRef}
@@ -201,9 +210,8 @@ export default class Select extends React.Component {
             Footer={Footer}
             width={width}
             maxHeight={maxHeight}
-            preventParentScroll={this.props.preventParentScroll}
-            reachedBottomProp={this.props.reachedBottom}
-            reachedBottom={this.reachedBottom}
+            reachedBottom={reachedBottom}
+            reachedTop={reachedTop}
           />
         )}
       </Root>
@@ -256,7 +264,7 @@ Select.defaultProps = {
   label: null,
   customValidator: undefined,
   disabled: false,
-  maxHeight: 220,
+  maxHeight: 150,
   inputMinWidth: 10,
   preventParentScroll: false,
   reachedTop: undefined,

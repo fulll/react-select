@@ -10,37 +10,37 @@ const Field = ({
   disabled,
   noFilter,
   handleChange,
-  rm,
+  handleRemove,
   filterText,
   name,
-  focus,
+  handleFocus,
   placeholder,
   minWidth,
   innerRef,
-}) => {
-  console.log(values)
-  return (
-    <FieldContainer onClick={focus} disabled={disabled}>
-      <TextContainer>
-        {values.map(item => (
-          <div key={item.value}>
-            <CustomTag item={item} rm={() => rm(item.value)} />
-          </div>
-        ))}
-        <Input
-          noFilter={noFilter}
-          handleChange={handleChange}
-          filterText={filterText}
-          name={name}
-          focus={focus}
-          placeholder={placeholder}
-          minWidth={minWidth}
-          innerRef={innerRef}
-        />
-      </TextContainer>
-      <Arrow />
-    </FieldContainer>
-  )
-}
+}) => (
+  <FieldContainer onClick={handleFocus} disabled={disabled}>
+    <TextContainer>
+      {values.map(item => (
+        <div key={item.value}>
+          <CustomTag
+            item={item}
+            handleRemove={() => handleRemove(item.value)}
+          />
+        </div>
+      ))}
+      <Input
+        noFilter={noFilter}
+        handleChange={handleChange}
+        filterText={filterText}
+        name={name}
+        handleFocus={handleFocus}
+        placeholder={placeholder}
+        minWidth={minWidth}
+        innerRef={innerRef}
+      />
+    </TextContainer>
+    <Arrow />
+  </FieldContainer>
+)
 
 export default Field

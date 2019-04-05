@@ -100,7 +100,7 @@ export const OptionWrapper = styled.div`
 export const Label = styled.label`
   position: absolute;
   left: 8px;
-  top: ${props => (props.focus || props.value.length > 0 ? '8px' : '19px')};
+  top: ${props => (props.focus || props.value.length > 0 ? '8px' : '20px')};
   font-size: ${props =>
     props.focus || props.value.length > 0 ? '12px' : '16px'};
   font-weight: 400;
