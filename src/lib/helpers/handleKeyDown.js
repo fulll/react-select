@@ -17,28 +17,33 @@ const handleKeyDown = (
 ) => {
   const OptionsWithoutValues = getOptions(values, filterText, options)
 
-  const l = OptionsWithoutValues.length
-  const s = selected
+  const length = OptionsWithoutValues.length
 
-  if (e.keyCode === 40) {
+  if (e.key === 'ArrowDown') {
     stopEvent(e)
     return {
-      selected: s < l ? getNextIndex(s, false, values, filterText, options) : l,
+      selected:
+        selected < length
+          ? getNextIndex(selected, false, values, filterText, options)
+          : length,
     }
   }
 
-  if (e.keyCode === 38) {
+  if (e.key === 'ArrowUp') {
     stopEvent(e)
     return {
-      selected: s > 1 ? getNextIndex(s, true, values, filterText, options) : s,
+      selected:
+        selected > 1
+          ? getNextIndex(selected, true, values, filterText, options)
+          : selected,
     }
   }
 
-  if (e.keyCode === 8 && filterText === '') {
+  if (e.key === 'Backspace' && filterText === '') {
     return { values: values.slice(0, -1) }
   }
 
-  if (e.keyCode === 13 && selected > 0) {
+  if (e.key === 'Enter' && selected > 0) {
     const value = OptionsWithoutValues[selected - 1]
 
     if (onEnter) {
@@ -49,8 +54,8 @@ const handleKeyDown = (
     }
   }
 
-  if (e.keyCode === 9) return { displayOptions: false, selected: 0 }
-  if (e.keyCode === 13 && !onEnter) stopEvent(e)
+  if (e.key === 'Tab') return { displayOptions: false, selected: 0 }
+  if (e.key === 'Enter' && !onEnter) stopEvent(e)
 }
 
 export default handleKeyDown

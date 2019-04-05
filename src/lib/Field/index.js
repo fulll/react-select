@@ -10,19 +10,22 @@ const Field = ({
   disabled,
   noFilter,
   handleChange,
-  rm,
+  handleRemove,
   filterText,
   name,
-  focus,
+  handleFocus,
   placeholder,
   minWidth,
   innerRef,
 }) => (
-  <FieldContainer onClick={focus} disabled={disabled}>
+  <FieldContainer onClick={handleFocus} disabled={disabled}>
     <TextContainer>
       {values.map(item => (
         <div key={item.value}>
-          <CustomTag item={item} rm={() => rm(item.value)} />
+          <CustomTag
+            item={item}
+            handleRemove={() => handleRemove(item.value)}
+          />
         </div>
       ))}
       <Input
@@ -30,7 +33,7 @@ const Field = ({
         handleChange={handleChange}
         filterText={filterText}
         name={name}
-        focus={focus}
+        handleFocus={handleFocus}
         placeholder={placeholder}
         minWidth={minWidth}
         innerRef={innerRef}

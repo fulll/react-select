@@ -25,7 +25,7 @@ export default class Select extends React.Component {
 
   componentDidMount() {
     this.debouncedHandleSize = debounce(this.handleSize, 300)
-    document.addEventListener('mousedown', this.blur)
+    document.addEventListener('mousedown', this.handleBlur)
     window.addEventListener('resize', this.debouncedHandleSize)
   }
 
@@ -54,7 +54,7 @@ export default class Select extends React.Component {
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mousedown', this.blur)
+    document.removeEventListener('mousedown', this.handleBlur)
     window.removeEventListener('resize', this.debouncedHandleSize)
   }
 
@@ -66,8 +66,10 @@ export default class Select extends React.Component {
 
   onChange = () => {
     this.props.onChange(this.state.values.map(v => v.value), this.state.values)
-    if (this.props.multi) this.focus()
-    else if (!this.props.multi && this.state.values[0]) {
+
+    if (this.props.multi) this.handleFocus()
+
+    if (!this.props.multi && this.state.values[0]) {
       this.input.blur()
       this.setState({ displayOptions: false })
     }
@@ -93,12 +95,12 @@ export default class Select extends React.Component {
     )
     if (value)
       this.setState(value, (...params) => {
-        if (e.keyCode === 8 && filterText === '') this.onChange(params)
+        if (e.key === 'Backspace' && filterText === '') this.onChange(params)
       })
   }
 
-  focus = () => {
-    if (this.props.onFocus) this.props.onFocus()
+  handleFocus = () => {
+    this.props.onFocus && this.props.onFocus()
     this.input.focus()
     this.setState({ displayOptions: true })
     this.handleSize()
@@ -123,14 +125,14 @@ export default class Select extends React.Component {
     })
   }
 
-  rm = value => {
+  handleRemove = value => {
     this.setState(
       { values: this.state.values.filter(v => v.value !== value) },
       this.onChange,
     )
   }
 
-  blur = e => {
+  handleBlur = e => {
     if (this.body && !this.body.contains(e.target)) {
       this.setState({ displayOptions: false, selected: 0 })
     }
@@ -183,10 +185,10 @@ export default class Select extends React.Component {
           disabled={disabled}
           noFilter={noFilter}
           handleChange={this.handleInputChange}
-          rm={this.rm}
+          handleRemove={this.handleRemove}
           filterText={filterText}
           name={`select-search-${randomId}`}
-          focus={this.focus}
+          handleFocus={this.handleFocus}
           placeholder={placeholder}
           minWidth={inputMinWidth}
           innerRef={this.getInputRef}

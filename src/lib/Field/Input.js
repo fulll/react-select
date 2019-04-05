@@ -6,7 +6,7 @@ const InputField = ({
   noFilter,
   filterText,
   name,
-  focus,
+  handleFocus,
   innerRef,
   placeholder,
   minWidth,
@@ -18,7 +18,7 @@ const InputField = ({
     onChange={handleChange}
     value={filterText}
     name={name}
-    onFocus={focus}
+    onFocus={handleFocus}
     placeholder={placeholder}
     minWidth={minWidth}
   />
