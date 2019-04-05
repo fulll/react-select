@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import { AnOption } from '../Styled'
+
 class Option extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.selected) {
@@ -15,32 +17,29 @@ class Option extends Component {
   }
 
   render() {
-    const { selected, children, onClick } = this.props
+    const { selected, children, handleClick } = this.props
     return (
-      <div
-        ref={option => {
+      <AnOption
+        innerRef={option => {
           this.option = option
         }}
-        onClick={onClick}
-        style={{
-          backgroundColor: selected ? '#FAFAFA' : 'white',
-          fontWeight: selected ? 'bold' : 'normal',
-        }}
+        onClick={handleClick}
+        selected={selected}
       >
         {children}
-      </div>
+      </AnOption>
     )
   }
 }
 
 Option.defaultProps = {
-  onClick: undefined,
+  handleClick: undefined,
 }
 
 Option.propTypes = {
   selected: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
-  onClick: PropTypes.func,
+  handleClick: PropTypes.func,
 }
 
 export default Option

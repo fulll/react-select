@@ -29,4 +29,4 @@ export const uniq = array =>
 export const random = () =>
   Math.random()
     .toString()
-    .slice(-4)
+    .slice(2)
