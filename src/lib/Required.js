@@ -1,14 +1,9 @@
 import React from 'react'
 
+import { RequiredLabel } from './Styled'
+
 const Required = ({ displayOptions }) => (
-  <span
-    style={{
-      color: displayOptions ? 'red' : 'lightgrey',
-      paddingLeft: 5,
-    }}
-  >
-    *
-  </span>
+  <RequiredLabel display={displayOptions ? 1 : 0}>*</RequiredLabel>
 )
 
 export default Required

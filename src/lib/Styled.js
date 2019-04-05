@@ -97,6 +97,16 @@ export const OptionWrapper = styled.div`
   }
 `
 
+export const AnOption = styled.div`
+  font-weight: ${({ selected }) => (selected ? 'bold' : 'normal')};
+  background-color: ${({ selected }) => (selected ? '#FAFAFA' : 'white')};
+`
+
+export const RequiredLabel = styled.span`
+  color: ${({ display }) => (display ? 'red' : 'lightgrey')};
+  padding-left: 5px;
+`
+
 export const Label = styled.label`
   position: absolute;
   left: 8px;

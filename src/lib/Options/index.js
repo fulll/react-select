@@ -28,9 +28,7 @@ const Options = ({
         }}
         width={width}
         maxHeight={maxHeight}
-        onScroll={e => {
-          onOptionScroll(e, reachedBottom, reachedTop)
-        }}
+        onScroll={onOptionScroll(reachedBottom, reachedTop)}
       >
         <OptionHeader
           options={options}
