@@ -19,6 +19,8 @@ const Options = ({
   maxHeight,
   reachedBottom,
   reachedTop,
+  CustomNoResult,
+  CustomOption,
 }) => {
   return (
     <Fragment>
@@ -40,6 +42,8 @@ const Options = ({
           noResult={noResult}
           handleValue={handleValue}
           selected={selected}
+          CustomOption={CustomOption}
+          CustomNoResult={CustomNoResult}
         />
         <OptionFooter
           options={options}

@@ -6,15 +6,15 @@ export const Root = styled.div`
   width: 100%;
   pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
   background-color: #f5f5f5;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.42);
   border-radius: 4px 4px 0 0;
   box-sizing: border-box;
   padding: 5px 5px 0;
   min-height: 56px;
 
   &:hover {
-    background-color: #dcdcdc;
-    border-bottom: 2px solid #222;
+    background-color: #ececec;
+    border-bottom: 1px solid rgba(0, 0, 0, 1);
   }
 `
 
@@ -100,6 +100,7 @@ export const OptionWrapper = styled.div`
 export const AnOption = styled.div`
   font-weight: ${({ selected }) => (selected ? 'bold' : 'normal')};
   background-color: ${({ selected }) => (selected ? '#FAFAFA' : 'white')};
+  cursor: pointer;
 `
 
 export const RequiredLabel = styled.span`
