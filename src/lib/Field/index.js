@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Input from './Input'
-import { CustomTag } from '../CustomComponents'
+import { DefaultTag } from '../DefaultComponents'
 
 import { FieldContainer, TextContainer, Arrow } from '../Styled'
 
@@ -17,15 +17,20 @@ const Field = ({
   placeholder,
   minWidth,
   innerRef,
+  CustomTag,
 }) => (
   <FieldContainer onClick={handleFocus} disabled={disabled}>
     <TextContainer>
       {values.map(item => (
         <div key={item.value}>
-          <CustomTag
-            item={item}
-            handleRemove={() => handleRemove(item.value)}
-          />
+          {CustomTag ? (
+            CustomTag({ item, handleRemove })
+          ) : (
+            <DefaultTag
+              item={item}
+              handleRemove={() => handleRemove(item.value)}
+            />
+          )}
         </div>
       ))}
       <Input

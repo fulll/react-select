@@ -12,7 +12,6 @@ import { Root, Label } from './Styled'
 
 import Field from './Field'
 import Options from './Options'
-import { CustomNoResult, CustomOption, CustomTag } from './CustomComponents'
 import Required from './Required'
 
 export default class Select extends React.Component {
@@ -157,6 +156,9 @@ export default class Select extends React.Component {
       maxHeight,
       reachedTop,
       reachedBottom,
+      CustomOption,
+      CustomTag,
+      CustomNoResult,
     } = this.props
     const displayNoResult = filterText !== '' || forceCustomNoResult
     const OptionsWithoutValues = getOptions(values, filterText, options)
@@ -197,6 +199,7 @@ export default class Select extends React.Component {
           placeholder={placeholder}
           minWidth={inputMinWidth}
           innerRef={this.getInputRef}
+          CustomTag={CustomTag}
         />
         {displayOptions && (
           <Options
@@ -212,6 +215,8 @@ export default class Select extends React.Component {
             maxHeight={maxHeight}
             reachedBottom={reachedBottom}
             reachedTop={reachedTop}
+            CustomOption={CustomOption}
+            CustomNoResult={CustomNoResult}
           />
         )}
       </Root>
@@ -251,9 +256,9 @@ Select.propTypes = {
 Select.defaultProps = {
   onChange: () => console.warn('Add a onChange props to your Select'),
   onTextChange: () => null,
-  CustomOption,
-  CustomTag,
-  CustomNoResult,
+  CustomOption: undefined,
+  CustomTag: undefined,
+  CustomNoResult: undefined,
   Header: undefined,
   Footer: undefined,
   options: [],

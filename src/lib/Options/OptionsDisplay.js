@@ -1,19 +1,33 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import Option from './Option'
-import { CustomOption, CustomNoResult } from '../CustomComponents'
+import { DefaultOption, DefaultNoResult } from '../DefaultComponents'
 
-const OptionsDisplay = ({ options, noResult, handleValue, selected }) =>
-  options.length !== 0
-    ? options.map((item, i) => (
+const OptionsDisplay = ({
+  options,
+  noResult,
+  handleValue,
+  selected,
+  CustomOption,
+  CustomNoResult,
+}) => (
+  <Fragment>
+    {options &&
+      options.map((item, i) => (
         <Option
           selected={selected === i + 1}
           key={item.value}
           handleClick={() => !item.disabled && handleValue(item)}
         >
-          <CustomOption item={item} />
+          {CustomOption ? (
+            CustomOption({ item })
+          ) : (
+            <DefaultOption item={item} />
+          )}
         </Option>
-      ))
-    : noResult && <CustomNoResult />
+      ))}
+    {noResult && (CustomNoResult ? CustomNoResult() : <DefaultNoResult />)}
+  </Fragment>
+)
 
 export default OptionsDisplay
