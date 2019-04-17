@@ -180,10 +180,8 @@ export default class Select extends React.Component {
       >
         {label && (
           <Label
-            focus={displayOptions}
-            value={values}
+            changeStyle={displayOptions || values.length > 0 || placeholder}
             onClick={this.handleFocus}
-            placeholder={placeholder}
           >
             {label}
             {customValidator && <Required displayOptions={displayOptions} />}

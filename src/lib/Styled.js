@@ -12,8 +12,6 @@ export const Root = styled.div`
   border-radius: 4px 4px 0 0;
   box-sizing: border-box;
   padding: ${props => (props.label ? '5px 5px 0' : '5px')};
-
-  /* padding: 5px 5px 0; */
   margin: 10px 0;
 
   &:hover {
@@ -115,13 +113,10 @@ export const RequiredLabel = styled.span`
 export const Label = styled.label`
   position: absolute;
   left: 7px;
-  top: ${({ focus, placeholder, value }) =>
-    focus || placeholder || value.length > 0 ? '6px' : '24px'};
-  font-size: ${({ focus, placeholder, value }) =>
-    focus || placeholder || value.length > 0 ? '12px' : '16px'};
+  top: ${({ changeStyle }) => (changeStyle ? '6px' : '24px')};
+  font-size: ${({ changeStyle }) => (changeStyle ? '12px' : '16px')};
   font-weight: 400;
-  color: ${({ focus, placeholder, value }) =>
-    focus || placeholder || value.length > 0 ? '#222' : 'rgba(0,0,0,.6)'};
+  color: ${({ changeStyle }) => (changeStyle ? '#222' : 'rgba(0,0,0,.6)')};
   transition-property: font-size, color, top;
   transition-duration: 0.3s;
   font-family: Open sans, sans-serif;
