@@ -183,6 +183,7 @@ export default class Select extends React.Component {
             focus={displayOptions}
             value={values}
             onClick={this.handleFocus}
+            placeholder={placeholder}
           >
             {label}
             {customValidator && <Required displayOptions={displayOptions} />}

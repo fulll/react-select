@@ -114,13 +114,20 @@ export const RequiredLabel = styled.span`
 
 export const Label = styled.label`
   position: absolute;
-  left: 6px;
-  top: ${props => (props.focus || props.value.length > 0 ? '6px' : '24px')};
+  left: 7px;
+  top: ${props =>
+    props.focus || props.placeholder || props.value.length > 0
+      ? '6px'
+      : '24px'};
   font-size: ${props =>
-    props.focus || props.value.length > 0 ? '12px' : '16px'};
+    props.focus || props.placeholder || props.value.length > 0
+      ? '12px'
+      : '16px'};
   font-weight: 400;
   color: ${props =>
-    props.focus || props.value.length > 0 ? '#222' : 'rgba(0,0,0,.6)'};
+    props.focus || props.placeholder || props.value.length > 0
+      ? '#222'
+      : 'rgba(0,0,0,.6)'};
   transition-property: font-size, color, top;
   transition-duration: 0.3s;
   font-family: Open sans, sans-serif;

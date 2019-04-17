@@ -41,7 +41,7 @@ const Field = ({
           filterText={filterText}
           name={name}
           handleFocus={handleFocus}
-          placeholder={placeholder}
+          placeholder={values.length > 0 ? '' : placeholder}
           minWidth={minWidth}
           innerRef={innerRef}
         />
