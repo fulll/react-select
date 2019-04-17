@@ -11,7 +11,7 @@ export const Root = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.42);
   border-radius: 4px 4px 0 0;
   box-sizing: border-box;
-  padding: ${props => (props.isLabel ? '5px 5px 0' : '5px')};
+  padding: ${props => (props.label ? '5px 5px 0' : '5px')};
 
   /* padding: 5px 5px 0; */
   margin: 10px 0;
@@ -41,7 +41,7 @@ export const FieldContainer = styled.div`
   align-items: center;
   -webkit-font-smoothing: antialiased;
   opacity: ${props => (props.disabled ? 0.5 : 1)};
-  padding-top: ${props => (props.isLabel ? 18 : 0)}px;
+  padding-top: ${props => (props.label ? 18 : 0)}px;
 `
 
 export const Tag = styled.div`
@@ -115,19 +115,13 @@ export const RequiredLabel = styled.span`
 export const Label = styled.label`
   position: absolute;
   left: 7px;
-  top: ${props =>
-    props.focus || props.placeholder || props.value.length > 0
-      ? '6px'
-      : '24px'};
-  font-size: ${props =>
-    props.focus || props.placeholder || props.value.length > 0
-      ? '12px'
-      : '16px'};
+  top: ${({ focus, placeholder, value }) =>
+    focus || placeholder || value.length > 0 ? '6px' : '24px'};
+  font-size: ${({ focus, placeholder, value }) =>
+    focus || placeholder || value.length > 0 ? '12px' : '16px'};
   font-weight: 400;
-  color: ${props =>
-    props.focus || props.placeholder || props.value.length > 0
-      ? '#222'
-      : 'rgba(0,0,0,.6)'};
+  color: ${({ focus, placeholder, value }) =>
+    focus || placeholder || value.length > 0 ? '#222' : 'rgba(0,0,0,.6)'};
   transition-property: font-size, color, top;
   transition-duration: 0.3s;
   font-family: Open sans, sans-serif;

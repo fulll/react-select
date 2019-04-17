@@ -21,7 +21,7 @@ const Field = ({
   label,
 }) => (
   <Fragment>
-    <FieldContainer onClick={handleFocus} disabled={disabled} isLabel={label}>
+    <FieldContainer onClick={handleFocus} disabled={disabled} label={label}>
       <TextContainer>
         {values.map(item => (
           <div key={item.value}>
@@ -41,7 +41,7 @@ const Field = ({
           filterText={filterText}
           name={name}
           handleFocus={handleFocus}
-          placeholder={values.length > 0 ? '' : placeholder}
+          placeholder={!!values && placeholder}
           minWidth={minWidth}
           innerRef={innerRef}
         />

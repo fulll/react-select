@@ -176,7 +176,7 @@ export default class Select extends React.Component {
         disabled={disabled}
         onScroll={e => e.stopPropagation()}
         onClick={this.focus}
-        isLabel={label}
+        label={label}
       >
         {label && (
           <Label
