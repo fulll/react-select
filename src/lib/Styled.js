@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 export const Root = styled.div`
+  display: flex;
+  align-items: center;
   position: relative;
   width: 100%;
   pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
@@ -9,8 +11,10 @@ export const Root = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.42);
   border-radius: 4px 4px 0 0;
   box-sizing: border-box;
-  padding: 5px 5px 0;
-  min-height: 56px;
+  padding: ${props => (props.isLabel ? '5px 5px 0' : '5px')};
+
+  /* padding: 5px 5px 0; */
+  margin: 10px 0;
 
   &:hover {
     background-color: #ececec;
@@ -37,7 +41,7 @@ export const FieldContainer = styled.div`
   align-items: center;
   -webkit-font-smoothing: antialiased;
   opacity: ${props => (props.disabled ? 0.5 : 1)};
-  margin-top: 16px;
+  padding-top: ${props => (props.isLabel ? 18 : 0)}px;
 `
 
 export const Tag = styled.div`
@@ -110,8 +114,8 @@ export const RequiredLabel = styled.span`
 
 export const Label = styled.label`
   position: absolute;
-  left: 8px;
-  top: ${props => (props.focus || props.value.length > 0 ? '8px' : '20px')};
+  left: 6px;
+  top: ${props => (props.focus || props.value.length > 0 ? '6px' : '24px')};
   font-size: ${props =>
     props.focus || props.value.length > 0 ? '12px' : '16px'};
   font-weight: 400;
@@ -127,7 +131,6 @@ export const ArrowContainer = styled.span`
   cursor: pointer;
   user-select: none;
   height: 100%;
-  margin-top: -12px;
 `
 
 export const Arrow = props => <ArrowContainer {...props}>▾</ArrowContainer>
