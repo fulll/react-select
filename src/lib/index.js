@@ -176,11 +176,11 @@ export default class Select extends React.Component {
         disabled={disabled}
         onScroll={e => e.stopPropagation()}
         onClick={this.focus}
+        label={label}
       >
         {label && (
           <Label
-            focus={displayOptions}
-            value={values}
+            changeStyle={displayOptions || values.length > 0 || placeholder}
             onClick={this.handleFocus}
           >
             {label}
@@ -200,6 +200,7 @@ export default class Select extends React.Component {
           minWidth={inputMinWidth}
           innerRef={this.getInputRef}
           CustomTag={CustomTag}
+          label={label}
         />
         {displayOptions && (
           <Options

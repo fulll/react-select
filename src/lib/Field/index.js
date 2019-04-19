@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import Input from './Input'
 import { DefaultTag } from '../DefaultComponents'
@@ -18,34 +18,37 @@ const Field = ({
   minWidth,
   innerRef,
   CustomTag,
+  label,
 }) => (
-  <FieldContainer onClick={handleFocus} disabled={disabled}>
-    <TextContainer>
-      {values.map(item => (
-        <div key={item.value}>
-          {CustomTag ? (
-            CustomTag({ item, handleRemove })
-          ) : (
-            <DefaultTag
-              item={item}
-              handleRemove={() => handleRemove(item.value)}
-            />
-          )}
-        </div>
-      ))}
-      <Input
-        noFilter={noFilter}
-        handleChange={handleChange}
-        filterText={filterText}
-        name={name}
-        handleFocus={handleFocus}
-        placeholder={placeholder}
-        minWidth={minWidth}
-        innerRef={innerRef}
-      />
-    </TextContainer>
+  <Fragment>
+    <FieldContainer onClick={handleFocus} disabled={disabled} label={label}>
+      <TextContainer>
+        {values.map(item => (
+          <div key={item.value}>
+            {CustomTag ? (
+              CustomTag({ item, handleRemove })
+            ) : (
+              <DefaultTag
+                item={item}
+                handleRemove={() => handleRemove(item.value)}
+              />
+            )}
+          </div>
+        ))}
+        <Input
+          noFilter={noFilter}
+          handleChange={handleChange}
+          filterText={filterText}
+          name={name}
+          handleFocus={handleFocus}
+          placeholder={!!values && placeholder}
+          minWidth={minWidth}
+          innerRef={innerRef}
+        />
+      </TextContainer>
+    </FieldContainer>
     <Arrow />
-  </FieldContainer>
+  </Fragment>
 )
 
 export default Field
