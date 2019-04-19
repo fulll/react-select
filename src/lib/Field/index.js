@@ -26,7 +26,10 @@ const Field = ({
         {values.map(item => (
           <div key={item.value}>
             {CustomTag ? (
-              CustomTag({ item, handleRemove })
+              CustomTag({
+                item,
+                handleRemove: () => handleRemove(item.value),
+              })
             ) : (
               <DefaultTag
                 item={item}
