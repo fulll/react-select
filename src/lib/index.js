@@ -160,7 +160,8 @@ export default class Select extends React.Component {
       CustomTag,
       CustomNoResult,
     } = this.props
-    const displayNoResult = filterText !== '' || forceCustomNoResult
+    const displayNoResult =
+      (options.length === 0 && filterText !== '') || forceCustomNoResult
     const OptionsWithoutValues = getOptions(values, filterText, options)
     const randomId = random()
 
