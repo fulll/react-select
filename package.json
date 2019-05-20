@@ -1,6 +1,6 @@
 {
   "name": "@ied/react-select",
-  "version": "2.0.0-beta.4",
+  "version": "2.0.0-beta.5",
   "description": "Another select",
   "main": "dist/react-select.min.js",
   "author": "Didier Franc",

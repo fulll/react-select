@@ -160,9 +160,13 @@ export default class Select extends React.Component {
       CustomTag,
       CustomNoResult,
     } = this.props
-    const displayNoResult =
-      (options.length === 0 && filterText !== '') || forceCustomNoResult
+
     const OptionsWithoutValues = getOptions(values, filterText, options)
+    const displayNoResult =
+      (OptionsWithoutValues.length === 0 && filterText !== '') ||
+      forceCustomNoResult
+    const labelTopStyle =
+      filterText !== '' || displayOptions || values.length > 0 || placeholder
     const randomId = random()
 
     return (
@@ -180,10 +184,7 @@ export default class Select extends React.Component {
         label={label}
       >
         {label && (
-          <Label
-            changeStyle={displayOptions || values.length > 0 || placeholder}
-            onClick={this.handleFocus}
-          >
+          <Label changeStyle={labelTopStyle} onClick={this.handleFocus}>
             {label}
             {customValidator && <Required displayOptions={displayOptions} />}
           </Label>
