@@ -20,7 +20,7 @@ const InputField = ({
     value={filterText}
     name={name}
     onFocus={handleFocus}
-    placeholder={values.length < 1 ? placeholder : null}
+    placeholder={placeholder}
     minWidth={minWidth}
   />
 )
