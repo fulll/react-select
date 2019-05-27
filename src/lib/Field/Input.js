@@ -11,7 +11,6 @@ const InputField = ({
   placeholder,
   minWidth,
   handleChange,
-  values,
 }) => (
   <Input
     disabled={noFilter}
