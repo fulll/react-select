@@ -47,6 +47,7 @@ const Field = ({
           placeholder={!!values && placeholder}
           minWidth={minWidth}
           innerRef={innerRef}
+          values={values}
         />
       </TextContainer>
     </FieldContainer>
