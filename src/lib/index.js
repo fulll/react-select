@@ -109,7 +109,6 @@ export default class Select extends React.Component {
     const { displayOptions } = this.state
     this.setState({ displayOptions: !displayOptions })
     this.handleSize()
-
   }
 
   handleValue = value => {
