@@ -105,6 +105,13 @@ export default class Select extends React.Component {
     this.handleSize()
   }
 
+  handleArrow = () => {
+    const { displayOptions } = this.state
+    this.setState({ displayOptions: !displayOptions })
+    this.handleSize()
+
+  }
+
   handleValue = value => {
     if (this.props.multi) {
       this.setState(
@@ -203,6 +210,8 @@ export default class Select extends React.Component {
           innerRef={this.getInputRef}
           CustomTag={CustomTag}
           label={label}
+          displayOptions={displayOptions}
+          handleArrow={this.handleArrow}
         />
         {displayOptions && (
           <Options

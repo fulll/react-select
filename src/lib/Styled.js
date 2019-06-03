@@ -122,11 +122,10 @@ export const Label = styled.label`
   font-family: Open sans, sans-serif;
 `
 
-export const ArrowContainer = styled.span`
+export const Arrow = styled.span`
   padding: 5px;
   cursor: pointer;
-  user-select: none;
+  /* user-select: none; */
   height: 100%;
+  transform: ${({ open }) => (open ? `rotate(0.5turn)` : `rotate(0.0turn)`)};
 `
-
-export const Arrow = props => <ArrowContainer {...props}>▾</ArrowContainer>
